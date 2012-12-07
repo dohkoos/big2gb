@@ -2683,6 +2683,7 @@ mapping["龔"] = "龚"
 mapping["龕"] = "龛"
 mapping["龜"] = "龟"
 mapping["蠍"] = "蝎"
+mapping["綑"] = "捆"
 
 def traverse(path)
   begin
@@ -2704,12 +2705,17 @@ traverse(root) do |file|
   next if file =~ /\.rb$/
 
   file.downcase
-  new_file = file.clone
+  dirname = File.dirname(file)
+  basename = File.basename(file)
+  new_basename = basename.clone
   mapping.each_key do |key|
-    new_file.gsub!(key.encode('GBK', 'UTF-8'), mapping[key].encode('GBK', 'UTF-8'))
+    new_basename.gsub!(key.encode('GBK', 'UTF-8'), mapping[key].encode('GBK', 'UTF-8'))
   end
-  if file != new_file
+  if basename != new_basename
+    new_file = dirname + "/" + new_basename
     puts "  #{file} -> #{new_file}"
     File.rename(file, new_file)
+  else
+    puts "#{file}"
   end
 end

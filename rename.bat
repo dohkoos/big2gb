@@ -1,1 +1,2 @@
 ruby rename.rb
+pause
