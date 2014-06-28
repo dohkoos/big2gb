@@ -2707,10 +2707,14 @@ traverse(root) do |file|
   file.downcase
   dirname = File.dirname(file)
   basename = File.basename(file)
-  new_basename = basename.clone
-  mapping.each_key do |key|
-    new_basename.gsub!(key.encode('GBK', 'UTF-8'), mapping[key].encode('GBK', 'UTF-8'))
+
+  new_basename = ''
+  basename.each_char do |c|
+    c.encode!('UTF-8', 'GBK')
+    new_basename += mapping.has_key?(c) ? mapping[c] : c
   end
+  new_basename.encode!('GBK', 'UTF-8')
+
   if basename != new_basename
     new_file = dirname + "/" + new_basename
     puts "  #{file} -> #{new_file}"
