@@ -1,4 +1,4 @@
-﻿mapping = {}
+mapping = {}
 mapping["蕩"] = "荡"
 mapping["鷄"] = "鸡"
 mapping["雞"] = "鸡"
@@ -2685,26 +2685,12 @@ mapping["龜"] = "龟"
 mapping["蠍"] = "蝎"
 mapping["綑"] = "捆"
 
-def traverse(path)
-  begin
-    if File.directory?(path)
-      Dir.foreach(path) do |file|
-        if file != "." and file != ".." 
-          traverse(path + "/" + file) {|x| yield x}
-        end
-      end
-    end
-    yield path
-  rescue
-    puts "Error: #{$!}"
-  end
-end
+require 'find'
 
 root = ARGV[0] || Dir.pwd
-traverse(root) do |file|
-  next if file =~ /\.rb$/
+Find.find(root) do |file|
+  next if file =~ /\.(rb|bat)$/
 
-  file.downcase
   dirname = File.dirname(file)
   basename = File.basename(file)
 
